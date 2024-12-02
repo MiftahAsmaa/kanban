@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Détails du Projet - Kanban</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- Lien vers le fichier CSS -->
+</head>
+<body>
+    <h1>Détails du Projet</h1>
+    <h2 th:text="${project.name}"></h2>
+    <div id="kanban">
+        <!-- Colonne À faire -->
+        <div class="kanban-column" id="TODO" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <h3>À faire</h3>
+            <div th:each="task : ${project.tasks}" 
+                 th:if="${task.status == T(org.mql.kanban.model.TaskStatus).TODO}" 
+                 th:attr="id='task-' + ${task.id}" 
+                 draggable="true" 
+                 ondragstart="drag(event)" 
+                 class="task">
+                <span th:text="${task.title}"></span>
+            </div>
+        </div>
+
+        <!-- Colonne En cours -->
+        <div class="kanban-column" id="IN_PROGRESS" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <h3>En cours</h3>
+            <div th:each="task : ${project.tasks}" 
+                 th:if="${task.status == T(org.mql.kanban.model.TaskStatus).IN_PROGRESS}" 
+                 th:attr="id='task-' + ${task.id}" 
+                 draggable="true" 
+                 ondragstart="drag(event)" 
+                 class="task">
+                <span th:text="${task.title}"></span>
+            </div>
+        </div>
+
+        <!-- Colonne Terminé -->
+        <div class="kanban-column" id="DONE" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <h3>Terminé</h3>
+            <div th:each="task : ${project.tasks}" 
+                 th:if="${task.status == T(org.mql.kanban.model.TaskStatus).DONE}" 
+                 th:attr="id='task-' + ${task.id}" 
+                 draggable="true" 
+                 ondragstart="drag(event)" 
+                 class="task">
+                <span th:text="${task.title}"></span>
+            </div>
+        </div>
+    </div>
+
+    <a class="btn" th:href="@{/}">Retour à l'accueil</a>
+    <a class="btn" th:href="@{/add-task/{projectId}(projectId=${project.id})}">Ajouter une Tâche</a>
+
+    <script>
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        function drag(event) {
+            event.dataTransfer.setData("text", event.target.id);
+            event.target.classList.add("dragging");
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            event.target.classList.remove("dragging");
+
+            if (event.target.classList.contains('kanban-column')) {
+                var data = event.dataTransfer.getData("text");
+                var taskElement = document.getElementById(data);
+
+                // Append the task to the drop target if it's a valid drop
+                if (taskElement) {
+                    event.target.appendChild(taskElement);
+
+                    // Update the task status via AJAX call
+                    var taskId = data.split('-')[1];
+                    var newStatus = event.target.id.toUpperCase();
+
+                    fetch(`/tasks/${taskId}/${newStatus}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => response.text())
+                    .then(data => {
+                        console.log('Statut mis à jour :', data);
+                        alert('Statut mis à jour avec succès !');
+                    })
+                    .catch(error => {
+                        console.error('Erreur :', error);
+                        alert('Erreur lors de la mise à jour du statut.');
+                    });
+                }
+            }
+        }
+    </script>
+</body>
+</html>

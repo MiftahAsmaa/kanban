@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Ajouter une Tâche</title>
+    <link rel="stylesheet" href="/css/addtask.css">
+</head>
+<body>
+    <h1>Ajouter une Tâche</h1>
+   <form th:action="@{/add-task/{projectId}(projectId=${projectId})}" method="post">
+    <label for="title">Titre :</label>
+    <input type="text" id="title" name="title" required />
+
+    <label for="status">Statut :</label>
+    <select id="status" name="status">
+        <option value="TODO">À faire</option>
+        <option value="IN_PROGRESS">En cours</option>
+        <option value="DONE">Terminé</option>
+    </select>
+
+    <button type="submit">Ajouter la tâche</button>
+    <a th:href="@{/project/{id}(id=${projectId})}">Retour</a>
+
+</form>
+
+</body>
+</html>
+
