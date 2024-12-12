@@ -3,7 +3,7 @@ package org.mql.kanban.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tb_tasks")
+@Table(name = "task")
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
