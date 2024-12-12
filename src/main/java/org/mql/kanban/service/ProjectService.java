@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import org.mql.kanban.model.Project;
 import org.mql.kanban.model.Task;
+import org.mql.kanban.model.User;
 import org.mql.kanban.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class ProjectService {
         System.out.println("Nombre de projets trouvés : " + projects.size());
         return projects;
     }
-    public Project getProjectById(int id) {
+    public Project getProjectById(Long id) {
         Project project = projectRepository.findById(id).orElse(null);
 
         if (project != null) {
@@ -38,6 +39,10 @@ public class ProjectService {
 
         return project;
     }
+
+    public List<Project> getProjectsByUser(User user) {
+        return projectRepository.findByUser((user));
+    }
 /*
     public Project getProjectById(int id) {
         Optional<Project> project = projectRepository.findById(id);
@@ -48,13 +53,17 @@ public class ProjectService {
         projectRepository.save(project);
     }
 
-    public void addTaskToProject(int projectId, Task task) {
+    public void addTaskToProject(Long projectId, Task task) {
         Project project = getProjectById(projectId);
         if (project != null) {
             task.setProject(project);
             project.getTasks().add(task);
             projectRepository.save(project);
         }
+    }
+
+    public List<Project> getProjectsByUserId(Long userId) {
+        return projectRepository.findByUserId(userId);
     }
 }
 

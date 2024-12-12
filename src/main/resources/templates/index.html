@@ -3,27 +3,34 @@
 <head>
     <title>Kanban App - Liste des Projets</title>
     <link rel="stylesheet" href="/css/index.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Responsive design -->
 </head>
 <body>
+
+    
+    <a class="logout" th:href="@{/logout}">Se déconnecter</a>
+
     <h1>Kanban App - Liste des Projets</h1>
     <a class="add-project-link" th:href="@{/add-project}">Ajouter un Projet</a>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nom</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="project : ${projects}">
-                <td th:text="${project.id}"></td>
-                <td th:text="${project.name}"></td>
-                <td>
-                    <a th:href="@{/project/{id}(id=${project.id})}">Voir</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="project : ${projects}">
+        <td th:text="${project.id}"></td>
+        <td th:text="${project.name}"></td>
+        <td>
+            <a th:href="@{/project/{id}(id=${project.id})}">Voir</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

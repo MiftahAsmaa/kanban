@@ -2,12 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Ajouter une Tâche</title>
-    <link rel="stylesheet" href="/css/addtask.css">
+    <link rel="stylesheet" href="/css/addTask.css">
 </head>
 <body>
     <h1>Ajouter une Tâche</h1>
-   <form th:action="@{/add-task/{projectId}(projectId=${projectId})}" method="post">
+  <form th:action="@{/add-task/{projectId}(projectId=${projectId})}" method="post">
     <label for="title">Titre :</label>
+
+
     <input type="text" id="title" name="title" required />
 
     <label for="status">Statut :</label>
