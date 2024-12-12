@@ -1,26 +1,27 @@
 package org.mql.kanban.controller;
 
-import java.util.Map;
-
 import org.mql.kanban.model.Task;
 import org.mql.kanban.model.TaskStatus;
+import org.mql.kanban.repository.TaskRepository;
 import org.mql.kanban.service.TaskService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/tasks")
 public class TaskController {
     private final TaskService taskService;
+    @Autowired
+    private TaskRepository taskRepository;
 
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
@@ -37,17 +38,18 @@ public class TaskController {
         taskService.createTask(task);
         return "redirect:/tasks";
     }
-
-    /*@PostMapping("/{taskId}/update-status")
-    public ResponseEntity<Void> updateTaskStatus(@PathVariable Long taskId, @RequestBody Map<String, String> payload) {
-        String newStatus = payload.get("status");
+    
+    @DeleteMapping("/supp/{taskId}")
+    @ResponseBody
+    public String deleteTask(@PathVariable Long taskId) {
         try {
-            taskService.updateTaskStatus(taskId, TaskStatus.valueOf(newStatus));
-            return ResponseEntity.ok().build();
+            taskRepository.deleteById(taskId); // Supprimer seulement la tâche spécifique
+            return "Tâche supprimée avec succès!";
         } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+            return "Erreur lors de la suppression de la tâche.";
         }
-    }*/
+    }
+
 
     @PostMapping("/{taskId}/{status}")
     public ResponseEntity<String> updateTaskStatus(@PathVariable Long taskId, @PathVariable String status) {
@@ -68,6 +70,8 @@ public class TaskController {
             return ResponseEntity.status(500).body("An error occurred: " + e.getMessage());
         }
     }
+    
+   
 
 
 }

@@ -45,19 +45,19 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .antMatchers("/signin", "/signup").permitAll() // Allow access to signin and register pages
-                        .anyRequest().authenticated() // All other requests require authentication
+                        .antMatchers("/signin", "/signup").permitAll() 
+                        .anyRequest().authenticated() 
                 )
                 .formLogin(form -> form
-                        .loginPage("/signin") // Specify the login page
+                        .loginPage("/signin") 
                         .loginProcessingUrl("/login")
-                        .permitAll() // Allow access to the login page
+                        .permitAll() 
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/logout") // Define the logout URL
-                        .logoutSuccessUrl("/signin") // Redirect to login page after logout
-                        .invalidateHttpSession(true) // Invalidate session on logout
-                        .deleteCookies("JSESSIONID") // Optionally delete session cookies
+                        .logoutUrl("/logout") 
+                        .logoutSuccessUrl("/signin") 
+                        .invalidateHttpSession(true) 
+                        .deleteCookies("JSESSIONID") 
                         .permitAll()
                 );
 

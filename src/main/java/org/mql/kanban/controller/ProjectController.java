@@ -29,13 +29,10 @@ public class ProjectController {
         User user = userRepository.findByUsername(currentPrincipalName).orElse(null);
 
         if (user == null) {
-            // Gérer le cas où l'utilisateur n'est pas trouvé (peut-être rediriger vers une page d'erreur)
-            return "error"; // Exemple : renvoyer une page d'erreur
+            return "error"; 
         }
 
         Long userId = user.getId();
-
-        // Récupérer les projets de l'utilisateur
         List<Project> projects = projectService.getProjectsByUserId(userId);
 
         if (projects.isEmpty()) {
@@ -59,7 +56,6 @@ public class ProjectController {
         String currentPrincipalName = authentication.getName();
         User user = userRepository.findByUsername(currentPrincipalName).orElse(null);
         assert user != null;
-        Long userId = user.getId();
 
         project.setUser(user);
         projectService.saveProject(project);
@@ -81,36 +77,32 @@ public class ProjectController {
 
     @GetMapping("/project/{id}")
     public String viewProjectDetails(@PathVariable("id") Long id, Model model) {
-        // Récupérer l'utilisateur authentifié
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         User user = userRepository.findByUsername(currentPrincipalName).orElse(null);
 
         if (user == null) {
             System.out.println("Erreur : Utilisateur non trouvé.");
-            return "redirect:/signin"; // Rediriger vers la page de connexion si l'utilisateur n'est pas trouvé
+            return "redirect:/signin"; 
         }
 
-        // Récupérer le projet par ID
         Project project = projectService.getProjectById(id);
         if (project == null) {
             System.out.println("Erreur : Projet non trouvé avec l'ID " + id);
-            return "redirect:/"; // Rediriger vers une page d'accueil ou d'erreur
+            return "redirect:/"; 
         }
 
-        // Vérifier si l'utilisateur est propriétaire du projet
         if (!project.getUser().equals(user)) {
             System.out.println("Erreur : Accès non autorisé au projet ID " + id);
-            return "redirect:/"; // Rediriger vers une page d'erreur
+            return "redirect:/"; 
         }
 
-        // Afficher les détails du projet si l'utilisateur est autorisé
         System.out.println("Projet trouvé : " + project.getName());
         project.getTasks().forEach(task ->
                 System.out.println("Tâche : " + task.getTitle() + " (" + task.getStatus() + ")")
         );
 
         model.addAttribute("project", project);
-        return "project-details"; // Vue pour afficher les détails du projet
+        return "project-details";
     }
 }

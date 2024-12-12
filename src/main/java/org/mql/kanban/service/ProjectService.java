@@ -1,10 +1,7 @@
 package org.mql.kanban.service;
 
 import java.util.List;
-import java.util.Optional;
-
 import javax.transaction.Transactional;
-
 import org.mql.kanban.model.Project;
 import org.mql.kanban.model.Task;
 import org.mql.kanban.model.User;

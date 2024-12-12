@@ -2,11 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Détails du Projet - Kanban</title>
-    <link rel="stylesheet" href="/css/styles.css"> <!-- Lien vers le fichier CSS -->
+    <link rel="stylesheet" href="/css/styles.css"> 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome -->
+    
 </head>
 <body>
-    <h1>Détails du Projet</h1>
-    <h2 th:text="${project.name}"></h2>
+<h1 class="project-title" th:text="'Détails du Projet: ' + ${project.name}"></h1>
+
     <div id="kanban">
         <!-- Colonne À faire -->
         <div class="kanban-column" id="TODO" ondrop="drop(event)" ondragover="allowDrop(event)">
@@ -17,7 +19,12 @@
                  draggable="true" 
                  ondragstart="drag(event)" 
                  class="task">
-                <span th:text="${task.title}"></span>
+                <p th:text="${task.title}" style="font-weight: bold;"></p>
+                <span th:text="'Description : ' + (${task.description} != null ? ${task.description} : 'Non spécifiée')"></span>
+				<button class="delete-btn" th:attr="onclick='deleteTask(' + ${task.id} + ')'" title="Supprimer">
+				    <i class="fas fa-trash-alt"></i> <!-- Icône de suppression -->
+				</button>
+								
             </div>
         </div>
 
@@ -30,8 +37,12 @@
                  draggable="true" 
                  ondragstart="drag(event)" 
                  class="task">
-                <span th:text="${task.title}"></span>
-            </div>
+                <p th:text="${task.title}" style="font-weight: bold;"></p>
+                <span th:text="'Description : ' + (${task.description} != null ? ${task.description} : 'Non spécifiée')"></span>
+				<button class="delete-btn" th:attr="onclick='deleteTask(' + ${task.id} + ')'" title="Supprimer">
+				    <i class="fas fa-trash-alt"></i> <!-- Icône de suppression -->
+				</button>
+			</div>
         </div>
 
         <!-- Colonne Terminé -->
@@ -43,8 +54,12 @@
                  draggable="true" 
                  ondragstart="drag(event)" 
                  class="task">
-                <span th:text="${task.title}"></span>
-            </div>
+                <p th:text="${task.title}" style="font-weight: bold;"></p>
+                <span th:text="'Description : ' + (${task.description} != null ? ${task.description} : 'Non spécifiée')"></span>
+				<button class="delete-btn" th:attr="onclick='deleteTask(' + ${task.id} + ')'" title="Supprimer">
+				    <i class="fas fa-trash-alt"></i> <!-- Icône de suppression -->
+				</button>
+			</div>
         </div>
     </div>
 
@@ -95,6 +110,36 @@
                 }
             }
         }
+        
+        function deleteTask(taskId) {
+            console.log("Tentative de suppression de la tâche avec ID:", taskId);
+            fetch(`/tasks/supp/${taskId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data); // Affiche la réponse du serveur
+                if (data.includes("Tâche supprimée")) {
+                    const taskElement = document.getElementById('task-' + taskId);
+                    if (taskElement) {
+                        taskElement.remove(); // Retirer l'élément du DOM
+                    }
+                    alert('Tâche supprimée avec succès!');
+                } else {
+                    alert('Erreur lors de la suppression de la tâche.');
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors de la suppression :', error);
+                alert('Erreur lors de la suppression de la tâche.');
+            });
+        }
+
+
+        
     </script>
 </body>
 </html>
