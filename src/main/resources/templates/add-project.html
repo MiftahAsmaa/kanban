@@ -10,6 +10,8 @@
     <form th:action="@{/add-project}" th:object="${project}" method="post">
         <label for="name">Nom du projet:</label>
         <input type="text" th:field="*{name}" id="name" required />
+        <label for="description">Description du projet:</label>
+        <textarea class="textarea-desc" th:field="*{description}" id="description"></textarea>
         <button type="submit">Ajouter</button>
             <a class="retour" th:href="@{/}">Retour</a>
         
