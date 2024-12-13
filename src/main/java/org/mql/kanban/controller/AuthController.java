@@ -32,12 +32,11 @@ public class AuthController {
         return "addUser"; // Le nom de la vue pour le formulaire d'ajout d'utilisateur
     }
 
-    // Méthode pour traiter l'ajout d'utilisateur
     @PostMapping("/signup")
     public String addUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
-        return "redirect:/signin"; // Redirige vers la liste des utilisateurs après ajout
+        return "redirect:/signin"; 
     }
     @GetMapping("/admin/users")
     public String listUsers(Model model) {
