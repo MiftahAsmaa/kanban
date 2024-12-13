@@ -4,6 +4,8 @@
     <title>Kanban App - Liste des Projets</title>
     <link rel="stylesheet" href="/css/index.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Responsive design -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 </head>
 <body>
 
@@ -17,18 +19,30 @@
 <table>
     <thead>
     <tr>
-        <th>ID</th>
         <th>Nom</th>
+        <th>Description</th>
         <th>Actions</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="project : ${projects}">
-        <td th:text="${project.id}"></td>
-        <td th:text="${project.name}"></td>
-        <td>
-            <a th:href="@{/project/{id}(id=${project.id})}">Voir</a>
-        </td>
+                <td th:text="${project.name}"></td>
+                <td th:text="${project.description}"></td>
+				<td>
+				    <a th:href="@{/project/{id}(id=${project.id})}" title="Voir">
+				        <i class="fas fa-eye"></i>
+				    </a>
+			    
+				    <a th:href="@{/edit-project/{id}(id=${project.id})}" class="update_btn" title="Modifier">
+    					<i class="fas fa-edit"></i>
+					</a>
+					
+					<a th:href="@{/delete-project/{id}(id=${project.id})}" class="delete_btn" title="Supprimer" 
+					onclick="return confirm('Voulez-vous vraiment supprimer ce projet ?');" >
+					    <i class="fas fa-trash-alt"></i>
+					</a>
+		
+				</td>
     </tr>
     </tbody>
 </table>

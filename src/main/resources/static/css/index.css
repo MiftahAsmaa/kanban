@@ -133,3 +133,53 @@ button:hover {
     background-color:#0088ca;
     color: black;
 }
+
+
+.delete_btn{
+			color: #b30202;
+		}
+
+		.update_btn{
+			color: rgb(128, 128, 128) !important;
+		}
+.textarea-desc {
+    width: 94%; /* Cohérent avec vos champs texte */
+    min-height: 120px; /* Taille appropriée */
+    padding: 12px; /* Espacement interne */
+    margin-bottom: 12px; /* Espacement avec les autres éléments */
+    border: 1px solid #ccc; /* Bordure grise claire */
+    border-radius: 4px; /* Coins légèrement arrondis */
+    font-family: Arial, sans-serif; /* Police générale */
+    font-size: 14px; /* Taille du texte cohérente */
+    background-color: #f9f9f9; /* Fond clair */
+    color: #333; /* Texte sombre */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Léger effet d'enfoncement */
+    resize: vertical; /* Permet uniquement de redimensionner verticalement */
+}
+
+.textarea-desc:focus {
+    border-color: #0080c0; /* Bordure bleu clair en focus */
+    background-color: #fff; /* Fond blanc lors de la saisie */
+    outline: none; /* Supprime l'effet de contour par défaut */
+    box-shadow: 0 0 5px rgba(0, 128, 192, 0.5); /* Légère ombre bleue */
+}
+
+.input-name {
+    width: 94%; /* Largeur cohérente */
+    padding: 12px; /* Espacement interne */
+    margin-bottom: 12px; /* Espacement avec les autres éléments */
+    border: 1px solid #ccc; /* Bordure grise claire */
+    border-radius: 4px; /* Coins arrondis */
+    font-family: Arial, sans-serif; /* Police générale */
+    font-size: 14px; /* Taille du texte */
+    background-color: #f9f9f9; /* Fond clair */
+    color: #333; /* Texte sombre */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Léger effet d'enfoncement */
+}
+
+.input-name:focus {
+    border-color: #0080c0; /* Bordure bleue au focus */
+    background-color: #fff; /* Fond blanc en saisie */
+    outline: none; /* Supprime le contour par défaut */
+    box-shadow: 0 0 5px rgba(0, 128, 192, 0.5); /* Légère ombre bleue */
+}

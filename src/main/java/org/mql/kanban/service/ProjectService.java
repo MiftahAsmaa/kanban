@@ -21,6 +21,8 @@ public class ProjectService {
         System.out.println("Nombre de projets trouvés : " + projects.size());
         return projects;
     }
+    
+    
     public Project getProjectById(Long id) {
         Project project = projectRepository.findById(id).orElse(null);
 
@@ -61,6 +63,25 @@ public class ProjectService {
 
     public List<Project> getProjectsByUserId(Long userId) {
         return projectRepository.findByUserId(userId);
+    }
+    
+    
+    public void editProject(Long id, Project updatedProject) {
+        Project existingProject = getProjectById(id);
+        if (existingProject != null) {
+            existingProject.setName(updatedProject.getName());
+            existingProject.setDescription(updatedProject.getDescription());
+            projectRepository.save(existingProject); // Sauvegarder les changements
+        }
+    }
+
+    public boolean deleteProject(Long id) {
+        Project project = getProjectById(id);
+    	if(project != null) {
+    		projectRepository.delete(getProjectById(id));
+    		return true;
+    	}
+    	return false;
     }
 }
 

@@ -105,4 +105,28 @@ public class ProjectController {
         model.addAttribute("project", project);
         return "project-details";
     }
+    
+    
+    @GetMapping("/edit-project/{id}")
+    public String editProjectForm(@PathVariable("id") Long id, Model model) {
+    	Project project = projectService.getProjectById(id);
+        model.addAttribute("project", project);
+        return "edit-project"; // page d'update d'un projet
+    }
+    
+    @PostMapping("/edit-project/{projectId}")
+    public String editTask(@PathVariable("projectId") Long projectId, Project project) {
+        projectService.editProject(projectId, project);
+        return "redirect:/";
+    }
+    
+    //delete
+ // Suppression d'un projet
+    @GetMapping("/delete-project/{id}")
+    public String deleteProject(@PathVariable("id") Long id) {
+        projectService.deleteProject(id);
+        return "redirect:/"; // Rediriger vers la page d'accueil après suppression
+    }
+    
+    
 }
